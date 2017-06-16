@@ -1,3 +1,6 @@
+[![Build Status](https://img.shields.io/travis/prodest/siarhes-api/develop.svg?label=develop-branch)](https://travis-ci.org/prodest/siarhes-api)
+[![Build Status](https://img.shields.io/travis/prodest/siarhes-api/master.svg?label=master-branch)](https://travis-ci.org/prodest/siarhes-api)
+
 ## SIARHES API
 
 Esta aplicação tem como objetivo servir o conteúdo do SIARHES, para que possa ser acessado de forma centralizada por diversos clientes.

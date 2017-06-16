@@ -1,0 +1,42 @@
+sudo: required
+language: node_js
+node_js:
+  - "7"
+
+services:
+  - docker
+
+env:
+  global:
+    - CACHE_DIR=$HOME/.cache
+    - INSTANT_CLIENT_ZIP=instantclient-basic-linux.x64-12.2.0.1.0.zip
+    - INSTANT_CLIENT_SDK_ZIP=instantclient-sdk-linux.x64-12.2.0.1.0.zip
+    - OCI_LIB_DIR=$HOME/oracle/instantclient
+    - OCI_INC_DIR=$HOME/oracle/instantclient/sdk/include
+    - LD_LIBRARY_PATH=$HOME/oracle/instantclient:$LD_LIBRARY_PATH
+    - DOCKER_IMAGE=prodest/api-siarhes
+    - SERVICE_NAME=api-siarhes
+    - RANCHER_STACK=api
+
+cache:
+  directories:
+    - $CACHE_DIR
+    - node_modules
+
+install:
+  - bash .travis/oracle_client_download.sh
+  - bash .travis/oracle_client_install.sh
+  - npm install
+
+script: 
+  - mocha ./test/validators.test.js # Alterar após melhoria nos testes, para não dependerem de banco.
+
+before_deploy:
+  - bash .travis/docker_build.sh
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: bash .travis/deploy.sh
+  on:
+    branch: master
