@@ -1,3 +1,6 @@
+[![Build Status](https://img.shields.io/travis/prodest/siarhes-api/develop.svg?label=develop-branch)](https://travis-ci.org/prodest/siarhes-api)
+[![Build Status](https://img.shields.io/travis/prodest/siarhes-api/master.svg?label=master-branch)](https://travis-ci.org/prodest/siarhes-api)
+
 ## SIARHES API
 
 Esta aplicação tem como objetivo servir o conteúdo do SIARHES, para que possa ser acessado de forma centralizada por diversos clientes.
@@ -7,7 +10,7 @@ A API foi dividida em módulos, cada um responsável por suas próprias rotas. I
 ## Configuração de Desenvolvimento
 
 Para rodar a API localmente, algumas configurações devem ser feitas:
-- Instalar o [Node.js](https://nodejs.org), versão 6 ou mais nova.
+- Instalar o [Node.js](https://nodejs.org), versão 7.6 ou mais nova.
 - Instalar o [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html), e configurar de acordo com sua plataforma.
 - Configurar o node-oracledb. [Windows](https://github.com/oracle/node-oracledb/blob/master/INSTALL.md#instwin) ou [Linux](https://github.com/oracle/node-oracledb/blob/master/INSTALL.md#instzip)
 
@@ -33,12 +36,12 @@ Para manter o estilo de código e também verificar alguns erros, foi usado o [E
 
 Instalar globalmente:
 ```
-npm install eslint -g
+npm install -g eslint
 ```
 
 Comando para executar a validação:
 ```
-npm run eslint
+eslint src test
 ```
 
 ## Executar Usando Docker
@@ -59,7 +62,8 @@ docker run -d --name api_siarhes -p 3000:3000 -e DB_USER=user -e DB_PASS=pass -e
 
 A documentação dos endpoints da API foi feita usando o [Swagger Editor](http://editor.swagger.io/). Ela pode ser gerada automaticamente através do script (shell) gendoc.sh.
 
-Executando o comando abaixo irá gerar a documentação em _HTML_ na pasta **build/docs**.
+Executar os comandos abaixo irá gerar a documentação em _HTML_ na pasta **build/docs**.
 ```
-npm run gendoc
+npm install -g bootprint bootprint-openapi
+bash gendoc.sh
 ```

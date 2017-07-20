@@ -4,7 +4,7 @@ FROM node:8-slim
 RUN apt-get update && apt-get install -y unzip libaio1 make g++ python
 
 # Oracle Instant Client
-COPY oracle /opt/oracle
+COPY $CACHE_DIR/oracle/*.zip /opt/oracle
 RUN unzip "/opt/oracle/*.zip" -d /opt/oracle \
  && rm /opt/oracle/*.zip \
  && mv /opt/oracle/instantclient_12_2 /opt/oracle/instantclient \
