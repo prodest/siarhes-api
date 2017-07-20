@@ -14,9 +14,10 @@ env:
     - OCI_LIB_DIR=$HOME/oracle/instantclient
     - OCI_INC_DIR=$HOME/oracle/instantclient/sdk/include
     - LD_LIBRARY_PATH=$HOME/oracle/instantclient:$LD_LIBRARY_PATH
-    - DOCKER_IMAGE=prodest/api-siarhes
-    - SERVICE_NAME=api-siarhes
+    - RANCHER_ENV=api
     - RANCHER_STACK=api
+    - RANCHER_SERVICE=api-siarhes
+    - RANCHER_START_FIRST=true
 
 cache:
   directories:
