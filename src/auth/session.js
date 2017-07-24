@@ -1,4 +1,4 @@
-const check = app_require('validators');
+const check = require('../validators');
 
 // Middleware para configurar o formato/timezone de data da sessão do banco.
 // https://github.com/oracle/node-oracledb/blob/master/doc/api.md#typemap

@@ -1,10 +1,11 @@
 FROM node:8-slim
+ARG ORACLE_ZIP_DIR
 
 # Dependencies
 RUN apt-get update && apt-get install -y unzip libaio1 make g++ python
 
 # Oracle Instant Client
-COPY $CACHE_DIR/oracle/*.zip /opt/oracle
+COPY ${ORACLE_ZIP_DIR}/*.zip /opt/oracle/
 RUN unzip "/opt/oracle/*.zip" -d /opt/oracle \
  && rm /opt/oracle/*.zip \
  && mv /opt/oracle/instantclient_12_2 /opt/oracle/instantclient \

@@ -30,7 +30,7 @@ install:
   - npm install
 
 script: 
-  - mocha ./test/validators.test.js # Alterar após melhoria nos testes, para não dependerem de banco.
+  - mocha ./test/validators.test.js && mocha ./test/ac.test.js && mocha ./test/v1.test.js
 
 before_deploy:
   - bash .travis/docker_build.sh

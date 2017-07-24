@@ -1,8 +1,22 @@
 /**
  * Testes para a API do Acesso Cidadão.
  */
+
 var agent = require('supertest');
 var assert = require('assert');
+var sinon = require('sinon');
+
+var KoaOracle = require('koa-oracledb');
+sinon.stub(KoaOracle.prototype, 'middleware').callsFake(function() {
+    return function(ctx, next) { return next(); }
+});
+
+var servidorDAO = require('../src/routes/cidadao/servidor/servidor.dao');
+sinon.stub(servidorDAO, 'buscaDadosPerfil').returns([]);
+sinon.stub(servidorDAO, 'buscaDadosPessoais').returns([]);
+
+// Deve ser declarada após as definições dos stubs,
+// para que elas sejam usadas no lugar dos métodos reais.
 var app = require('../src/app');
 
 describe('API AC', function() {

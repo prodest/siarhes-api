@@ -24,6 +24,6 @@ odl --component instantclient-basic --version 12.2.0.1.0 --os linux --arch x64 -
 odl --component instantclient-sdk --version 12.2.0.1.0 --os linux --arch x64 --accept-license
 ls -la
 
-# Copi os arquivos baixados para a pasta de cache.
+# Copia os arquivos baixados para a pasta de cache.
 mkdir -p $CACHE_DIR/oracle
 mv *.zip $CACHE_DIR/oracle/
