@@ -20,7 +20,7 @@
     "koa-oracledb": "^1.0.0",
     "koa-router": "^7.2.1",
     "koa2-newrelic": "^2.2.0",
-    "newrelic": "^1.40.0",
+    "newrelic": "^2.0.0",
     "oracledb": "^1.13.1",
     "underscore": "^1.8.3"
   },
@@ -28,7 +28,7 @@
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
     "proxyquire": "^1.8.0",
-    "sinon": "^2.3.6",
+    "sinon": "^2.3.8",
     "supertest": "^3.0.0"
   },
   "false": {}
