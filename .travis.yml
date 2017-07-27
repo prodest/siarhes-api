@@ -18,6 +18,7 @@ env:
     - RANCHER_STACK=api
     - RANCHER_SERVICE=api-siarhes
     - RANCHER_START_FIRST=true
+    - DOCKER_IMAGE=prodest/api-siarhes:${TRAVIS_COMMIT:0:7}
 
 cache:
   directories:
