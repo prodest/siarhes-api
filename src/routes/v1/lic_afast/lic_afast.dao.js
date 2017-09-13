@@ -16,6 +16,11 @@ module.exports = class LicAfastDao extends BaseDao {
             params.numvinc = queryParams.numvinc;
         }
 
+        if (queryParams.tipofreq) {
+            query = query + ' AND tipofreq = :tipofreq';
+            params.tipofreq = queryParams.tipofreq;
+        }
+
         if (queryParams.dtini_igual) {
             query = query + " AND dtini = TO_DATE(:dtini_igual, 'yyyy-mm-dd')";
             params.dtini_igual = queryParams.dtini_igual;
