@@ -1,9 +1,10 @@
 // Validadores customizados para serem passados nas funções
 // checkPred e checkPredNot.
+const moment = require('moment');
 
 // Valida o formato da data val.
 module.exports.dateFormat = function(val) {
-    return /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(val);
+    return (moment(val, "YYYY-MM-DD", true).isValid());
 };
 
 // Valida se a data está dentro do limite.
