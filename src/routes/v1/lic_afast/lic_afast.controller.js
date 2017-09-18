@@ -12,6 +12,8 @@ async function getLicAfast(ctx, next) {
     ctx.validateQuery('numvinc')
         .required()
         .isNumeric();
+    ctx.validateQuery('tipofreq')
+        .optional();        
     ctx.validateQuery('dtini_igual')
         .optional()
         .checkPred(v => check.dateFormat(v), 'Formato de data inválido.');

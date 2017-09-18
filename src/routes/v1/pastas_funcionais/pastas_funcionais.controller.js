@@ -13,7 +13,7 @@ async function getPastasFuncionais(ctx, next) {
         .isNumeric();
     ctx.validateQuery('orderBy')
         .defaultTo('pagina')
-        .isIn(['pagina', 'assunto']);
+        .isIn(['pagina', 'assunto', 'data']);
     ctx.validateQuery('order')
         .defaultTo('asc')
         .isIn(['asc', 'desc']);

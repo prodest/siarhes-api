@@ -16,6 +16,7 @@ env:
     - LD_LIBRARY_PATH=$HOME/oracle/instantclient:$LD_LIBRARY_PATH
     - RANCHER_ENV=api
     - RANCHER_STACK=api
+    - RANCHER_STACK_DEV=api-developers
     - RANCHER_SERVICE=api-siarhes
     - RANCHER_START_FIRST=true
     - DOCKER_IMAGE=prodest/api-siarhes:${TRAVIS_COMMIT:0:7}
@@ -37,8 +38,14 @@ before_deploy:
   - bash .travis/docker_build.sh
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash .travis/deploy.sh
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: bash .travis/deploy.sh
+    on:
+      branch: master
+
+  - provider: script
+    skip_cleanup: true
+    script: bash .travis/develop.sh
+    on:
+      branch: develop
