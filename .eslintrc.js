@@ -8,13 +8,10 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        // "indent": [ "error", 4 ],
-        // "quotes": [ "error", "single" ],
-        "linebreak-style": [ "error", "windows" ],
+        //"linebreak-style": [ "error", "windows" ],
         "semi": [ "error", "always" ],
         "no-unused-vars": ["error", { "argsIgnorePattern": "^next$", "varsIgnorePattern": "^ignored" }],
         "no-constant-condition": ["error", { "checkLoops": false }],
-        "strict": "off",
         "no-console": "off"
     },
     "globals": {
