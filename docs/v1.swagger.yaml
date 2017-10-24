@@ -1,11 +1,10 @@
 # http://swagger.io/specification/
 swagger: '2.0'
-
 info:
-  title: SIARHES API
   description: API para acesso aos dados do SIARHES.
-  version: "1.0.0"
-host: 127.0.0.1:3000
+  version: "1.0.2"  
+  title: SIARHES API
+host: 127.0.0.1
 basePath: /v1
 schemes:
   - http
@@ -19,6 +18,35 @@ security:
 
 # Definições dos Endpoints
 paths:
+  /funcionarios:
+    get:
+      operationId: listaDadosPessoais
+      description: |
+        Retorna as informações pessoais do servidor. Pelo menos um dos parâmetros é obrigatório. <br />
+        Ordenação: *numero, cpf, nome
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - name: cpf
+          in: query
+          description: CPF
+          required: false
+          type: number
+        - name: nome
+          in: query
+          description: Nome ou Parte do Nome
+          required: false
+          type: string
+      responses:
+        200:
+          description: Lista de funcionários e suas informações pessoais.
+          schema:
+            $ref: '#/definitions/Funcionario'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'  
+
+
   /vinculos:
     get:
       operationId: listaVinculos
@@ -55,191 +83,51 @@ paths:
           $ref: '#/responses/Error'
         401:
           $ref: '#/responses/AuthError'
-            
-  /provimentos:
+
+  /capacitacoes:
     get:
-      operationId: listaProvimentos
+      operationId: listaCursosCapacitacao
       description: |
-        Retorna as informações dos provimentos de um servidor. <br />
-        Ordenação: *dtini
+        Retorna as informações sobre os cursos de capacitação de um servidor. <br />
+        Ordenação: *curso
       parameters:
         - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/Curso'
         - $ref: '#/parameters/DtIniIgual'
         - $ref: '#/parameters/DtIniMaior'
         - $ref: '#/parameters/OrderBy'
         - $ref: '#/parameters/Order'
       responses:
         200:
-          description: Lista de provimentos.
+          description: Lista dos cursos de capacitação do servidor.
           schema:
-            $ref: '#/definitions/Provimento'
+            $ref: '#/definitions/Capacitacao'
         400:
           $ref: '#/responses/Error'
         401:
           $ref: '#/responses/AuthError'
-            
-  /pastas_funcionais:
+
+  /dependentes:
     get:
-      operationId: listaPastaFuncional
+      operationId: listaDependentes
       description: |
-        Retorna as informações da pasta funcional de um servidor. <br />
-        Ordenação: *pagina, assunto
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumVinc'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista da informações da pasta funcional.
-          schema:
-            $ref: '#/definitions/PastaFuncional'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-            
-  /lic_afast:
-    get:
-      operationId: listaLicAfast
-      description: |
-        Retorna as informações das licenças/afastamentos de um servidor. <br />
-        Ordenação: *dtini
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumVinc'
-        - $ref: '#/parameters/DtIniIgual'
-        - $ref: '#/parameters/DtIniMaior'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista da licenças e afastamentos.
-          schema:
-            $ref: '#/definitions/LicAfast'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-            
-  /hist_depen:
-    get:
-      operationId: listaHistDepen
-      description: |
-        Retorna as informações do historico de dependências de um servidor. <br />
-        Ordenação: *dtini
+        Retorna as informações os dependentes de um servidor. <br />
+        Ordenação: *numero
       parameters:
         - $ref: '#/parameters/NumFunc'
         - $ref: '#/parameters/NumDep'
-        - $ref: '#/parameters/DtIniIgual'
-        - $ref: '#/parameters/DtIniMaior'
         - $ref: '#/parameters/OrderBy'
         - $ref: '#/parameters/Order'
       responses:
         200:
-          description: Histórico de dependências.
+          description: Lista dos dependentes do servidor.
           schema:
-            $ref: '#/definitions/HistDepen'
+            $ref: '#/definitions/Dependente'
         400:
           $ref: '#/responses/Error'
         401:
-          $ref: '#/responses/AuthError'
-  
-  /funcionarios:
-    get:
-      operationId: listaDadosPessoais
-      description: |
-        Retorna as informações pessoais do servidor. Pelo menos um dos parâmetros é obrigatório. <br />
-        Ordenação: *numero, cpf, nome
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - name: cpf
-          in: query
-          description: CPF
-          required: false
-          type: number
-        - name: nome
-          in: query
-          description: Nome ou Parte do Nome
-          required: false
-          type: string
-      responses:
-        200:
-          description: Lista de funcionários e suas informações pessoais.
-          schema:
-            $ref: '#/definitions/Funcionario'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-  
-  /frequencias:
-    get:
-      operationId: listaFrequencias
-      description: |
-        Retorna as informações das frequências de um servidor. <br />
-        Ordenação: *dtini
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumVinc'
-        - $ref: '#/parameters/DtIniIgual'
-        - $ref: '#/parameters/DtIniMaior'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista das frequências do servidor.
-          schema:
-            $ref: '#/definitions/Frequencia'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-            
-  /formacoes:
-    get:
-      operationId: listaCursosFormacao
-      description: |
-        Retorna as informações sobre os cursos de formação de um servidor. <br />
-        Ordenação: *cursoform, habilitacao
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista dos cursos de formação do servidor.
-          schema:
-            $ref: '#/definitions/CursoForm'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-            
-  /ferias:
-    get:
-      operationId: listaFerias
-      description: |
-        Retorna as informações sobre as férias de um servidor. <br />
-        Ordenação: *dtini
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumVinc'
-        - $ref: '#/parameters/DtIniIgual'
-        - $ref: '#/parameters/DtIniMaior'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista das férias tiradas pelo servidor.
-          schema:
-            $ref: '#/definitions/Ferias'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-            
+          $ref: '#/responses/AuthError'  
+           
   /designacoes:
     get:
       operationId: listaDesignacoes
@@ -262,70 +150,7 @@ paths:
           $ref: '#/responses/Error'
         401:
           $ref: '#/responses/AuthError'
-            
-  /dependentes:
-    get:
-      operationId: listaDependentes
-      description: |
-        Retorna as informações os dependentes de um servidor. <br />
-        Ordenação: *numero
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/NumDep'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista dos dependentes do servidor.
-          schema:
-            $ref: '#/definitions/Dependente'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-  
-  /capacitacoes:
-    get:
-      operationId: listaCursosCapacitacao
-      description: |
-        Retorna as informações sobre os cursos de capacitação de um servidor. <br />
-        Ordenação: *curso
-      parameters:
-        - $ref: '#/parameters/NumFunc'
-        - $ref: '#/parameters/OrderBy'
-        - $ref: '#/parameters/Order'
-      responses:
-        200:
-          description: Lista dos cursos de capacitação do servidor.
-          schema:
-            $ref: '#/definitions/CursoCap'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-  
-  /publicacoes:
-    get:
-      operationId: listaPublicacoes
-      description: |
-        Retorna as informações sobre as publicações. <br />
-        Ordenação: *datapubl
-      parameters:
-        - name: pontpubl
-          in: query
-          description: Código de Publicação
-          required: true
-          type: integer
-      responses:
-        200:
-          description: Lista de publicações.
-          schema:
-            $ref: '#/definitions/Publicacao'
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-  
+
   /empresas:
     get:
       operationId: listaEmpresas
@@ -357,34 +182,116 @@ paths:
           $ref: '#/responses/Error'
         401:
           $ref: '#/responses/AuthError'
-    
-  /subempresas:
+
+  /ferias:
     get:
-      operationId: listaSubEmpresas
+      operationId: listaFerias
       description: |
-        Retorna as informações sobre as subempresas. <br />
-        Ordenação: *nome
+        Retorna as informações sobre as férias de um servidor. <br />
+        Ordenação: *dtini
       parameters:
-        - name: codigo
-          in: query
-          description: Código da SubEmpresa
-          required: false
-          type: integer
-        - name: nome
-          in: query
-          description: Nome da SubEmpresa
-          required: false
-          type: string
-        - name: fantasia
-          in: query
-          description: Fantasia da SubEmpresa
-          required: false
-          type: integer
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/DtIniIgual'
+        - $ref: '#/parameters/DtIniMaior'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
       responses:
         200:
-          description: Lista de subempresas.
+          description: Lista das férias tiradas pelo servidor.
           schema:
-            $ref: '#/definitions/SubEmpresa'
+            $ref: '#/definitions/Ferias'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+
+  /formacoes:
+    get:
+      operationId: listaCursosFormacao
+      description: |
+        Retorna as informações sobre os cursos de formação de um servidor. <br />
+        Ordenação: *cursoform, habilitacao
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+      responses:
+        200:
+          description: Lista dos cursos de formação do servidor.
+          schema:
+            $ref: '#/definitions/Formacao'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'            
+
+  /frequencias:
+    get:
+      operationId: listaFrequencias
+      description: |
+        Retorna as informações das frequências de um servidor. <br />
+        Ordenação: *dtini
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/DtIniIgual'
+        - $ref: '#/parameters/DtIniMaior'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+        - $ref: '#/parameters/Tipofreq'
+      responses:
+        200:
+          description: Lista das frequências do servidor.
+          schema:
+            $ref: '#/definitions/Frequencia'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'            
+  
+  /hist_depen:
+    get:
+      operationId: listaHistDepen
+      description: |
+        Retorna as informações do historico de dependências de um servidor. <br />
+        Ordenação: *dtini
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumDep'
+        - $ref: '#/parameters/DtIniIgual'
+        - $ref: '#/parameters/DtIniMaior'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+      responses:
+        200:
+          description: Histórico de dependências.
+          schema:
+            $ref: '#/definitions/HistDepen'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+
+  /lic_afast:
+    get:
+      operationId: listaLicAfast
+      description: |
+        Retorna as informações das licenças/afastamentos de um servidor. <br />
+        Ordenação: *dtini
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/DtIniIgual'
+        - $ref: '#/parameters/DtIniMaior'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+        - $ref: '#/parameters/Tipofreq'
+      responses:
+        200:
+          description: Lista da licenças e afastamentos.
+          schema:
+            $ref: '#/definitions/LicAfast'
         400:
           $ref: '#/responses/Error'
         401:
@@ -457,41 +364,7 @@ paths:
           $ref: '#/responses/Error'
         401:
           $ref: '#/responses/AuthError'
-  
-  /organograma/setor/servidores:
-    get:
-      operationId: listaServidoresSetor
-      description: Retorna quais servidores estão em um determinado setor.
-      parameters:
-        - name: empresa
-          in: query
-          description: Código da Empresa
-          required: true
-          type: integer
-        - name: setor
-          in: query
-          description: Código do Setor
-          required: true
-          type: string
-      responses:
-        200:
-          description: Lista de servidores.
-          schema:
-            properties:
-              numfunc:
-                type: integer
-              numvinc:
-                type: integer
-              nome:
-                type: string
-              gestor:
-                type: string
-                description: S/N - indica se o servidor é o gestor do setor.
-        400:
-          $ref: '#/responses/Error'
-        401:
-          $ref: '#/responses/AuthError'
-  
+
   /organograma/setor/gestor:
     get:
       operationId: getGestorSetor
@@ -534,6 +407,138 @@ paths:
         401:
           $ref: '#/responses/AuthError'
   
+  /organograma/setor/servidores:
+    get:
+      operationId: listaServidoresSetor
+      description: Retorna quais servidores estão em um determinado setor.
+      parameters:
+        - name: empresa
+          in: query
+          description: Código da Empresa
+          required: true
+          type: integer
+        - name: setor
+          in: query
+          description: Código do Setor
+          required: true
+          type: string
+      responses:
+        200:
+          description: Lista de servidores.
+          schema:
+            properties:
+              numfunc:
+                type: integer
+              numvinc:
+                type: integer
+              nome:
+                type: string
+              gestor:
+                type: string
+                description: S/N - indica se o servidor é o gestor do setor.
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+  
+  /pastas_funcionais:
+    get:
+      operationId: listaPastaFuncional
+      description: |
+        Retorna as informações da pasta funcional de um servidor. <br />
+        Ordenação: *pagina, assunto
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+      responses:
+        200:
+          description: Lista da informações da pasta funcional.
+          schema:
+            $ref: '#/definitions/PastaFuncional'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+            
+  /provimentos:
+    get:
+      operationId: listaProvimentos
+      description: |
+        Retorna as informações dos provimentos de um servidor. <br />
+        Ordenação: *dtini
+      parameters:
+        - $ref: '#/parameters/NumFunc'
+        - $ref: '#/parameters/NumVinc'
+        - $ref: '#/parameters/DtIniIgual'
+        - $ref: '#/parameters/DtIniMaior'
+        - $ref: '#/parameters/OrderBy'
+        - $ref: '#/parameters/Order'
+      responses:
+        200:
+          description: Lista de provimentos.
+          schema:
+            $ref: '#/definitions/Provimento'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+
+  /publicacoes:
+    get:
+      operationId: listaPublicacoes
+      description: |
+        Retorna as informações sobre as publicações. <br />
+        Ordenação: *datapubl
+      parameters:
+        - name: pontpubl
+          in: query
+          description: Código de Publicação
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Lista de publicações.
+          schema:
+            $ref: '#/definitions/Publicacao'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+
+  /subempresas:
+    get:
+      operationId: listaSubEmpresas
+      description: |
+        Retorna as informações sobre as subempresas. <br />
+        Ordenação: *nome
+      parameters:
+        - name: codigo
+          in: query
+          description: Código da SubEmpresa
+          required: false
+          type: integer
+        - name: nome
+          in: query
+          description: Nome da SubEmpresa
+          required: false
+          type: string
+        - name: fantasia
+          in: query
+          description: Fantasia da SubEmpresa
+          required: false
+          type: integer
+      responses:
+        200:
+          description: Lista de subempresas.
+          schema:
+            $ref: '#/definitions/SubEmpresa'
+        400:
+          $ref: '#/responses/Error'
+        401:
+          $ref: '#/responses/AuthError'
+
   /auditoria/{tabela}:
     get:
       operationId: listaAlteracoes
@@ -603,148 +608,21 @@ parameters:
     description: Direção da ordenação dos resultados (*asc, desc).
     required: false
     type: string
+  Curso:
+    name: curso
+    in: query
+    description: Código do curso ou capacitação a ser buscado.
+    required: false
+    type: string
+  Tipofreq:
+    name: tipofreq
+    in: query
+    description: Tipo da frequência.
+    required: false
+    type: string
     
 # Definições de Objetos
 definitions:
-  Error:
-    type: object
-    properties:
-      message:
-        type: string
-        
-  Vinculo:
-    type: object
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMERO:
-        type: integer
-      SITUACAO:
-        type: string
-        description: "ATIVO; INATIVO; FALECIDO"
-      DTEXERC:
-        type: string
-      DTAPOSENT:
-        type: string
-      DTVAC:
-        type: string
-      FORMAVAC:
-        type: string
-      TIPOVINC:
-        type: string
-      REGIMEJUR:
-        type: string
-      CATEGORIA:
-        type: string
-      NUMVINCANT:
-        type: integer
-        description: Indica o vínculo anterior da mesma linha funcional.
-      NUMVINCPOS:
-        type: integer
-        description: Indica o vínculo posterior da mesma linha funcional.
-      PONTPUBL:
-        type: integer
-        
-  Provimento:
-    type: object
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMVINC:
-        type: integer
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      SETOR:
-        type: string
-      SETOR_NOME:
-        type: string
-      CARGO:
-        type: integer
-      CARGO_NOME:
-        type: string
-      REFERENCIA:
-        type: string
-      JORNADA:
-        type: string
-      FORMAREM:
-        type: string
-      FORMAPROV:
-        type: string
-      PONTPUBL:
-        type: integer
-        
-  PastaFuncional:
-    type: object
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMVINC:
-        type: integer
-      PAGINA:
-        type: integer
-      ASSUNTO:
-        type: string
-      DATA:
-        type: string
-      COMPLEMENTO:
-        type: string
-      PONTPUBL:
-        type: integer
-        
-  LicAfast:
-    type: object
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMVINC:
-        type: integer
-      TIPOFREQ:
-        type: string
-      CODFREQ:
-        type: integer
-      MNEMONICO:
-        type: string
-      NOME:
-        type: string
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      DTPREVFIM:
-        type: string
-      DIAS:
-        type: integer
-      MOTIVO:
-        type: string
-      PONTPUBL:
-        type: integer
-        
-  HistDepen:
-    type: object
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMDEP:
-        type: integer
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      INVALIDO:
-        type: string
-      ESTUDANTE:
-        type: string
-      UNIVERSITARIO:
-        type: string
-      EXCEPCIONAL:
-        type: string
-      ESTCIVIL:
-        type: string
-      PONTPUBL:
-        type: integer
-        
   Funcionario:
     properties:
       NOME:
@@ -845,108 +723,124 @@ definitions:
         type: integer
       PONTPUBL:
         type: integer
-        
-  Frequencia:
+      CNH:
+        type: integer
+      CATCNH:
+        type: string
+      VALIDCNH:
+        type: string
+      UFCNH:
+        type: string
+      NUMDOCMILI:
+        type: integer
+      SERDOCMILI:
+        type: string
+      CATMILI:
+        type: integer
+      ORGAOMILI:
+        type: string
+      UFDOCMILI:
+        type: string
+      IDENTPROF:
+        type: string
+      TIPOIDPROF:
+        type: string
+      UF_IDENTPROF:
+        type: string
+      TIPODOC_CERT:
+        type: string
+      NUM_CERT:
+        type: integer
+      LIVRO_A_CERT:
+        type: string
+      FOLHA_CERT:
+        type: string
+      CARTORIO_CERT:
+        type: string
+      UF_CART:
+        type: string
+      MUNICIPIO_CART:
+        type: string
+      TIPODOC_CERT_FIM:
+        type: string
+      NUM_CERT_FIM:
+        type: integer
+      LIVRO_CERT_FIM:
+        type: string
+      FOLHA_CERT_FIM:
+        type: string
+      CARTORIO_CERT_FIM:
+        type: string
+      UF_CART_FIM:
+        type: string
+      MUNICIPIO_CART_FIM:
+        type: string    
+
+  Vinculo:
+    type: object
     properties:
       NUMFUNC:
         type: integer
-      NUMVINC:
+      NUMERO:
         type: integer
-      TIPOFREQ:
+      SITUACAO:
         type: string
-      CODFREQ:
+        description: "ATIVO; INATIVO; FALECIDO"
+      DTEXERC:
+        type: string
+      DTAPOSENT:
+        type: string
+      DTVAC:
+        type: string
+      FORMAVAC:
+        type: string
+      TIPOVINC:
+        type: string
+      REGIMEJUR:
+        type: string
+      CATEGORIA:
+        type: string
+      NUMVINCANT:
         type: integer
-      MNEMONICO:
-        type: string
-      NOME:
-        type: string
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      DIAS:
+        description: Indica o vínculo anterior da mesma linha funcional.
+      NUMVINCPOS:
         type: integer
-      OBS:
-        type: string
+        description: Indica o vínculo posterior da mesma linha funcional.
       PONTPUBL:
         type: integer
-        
-  CursoForm:
+
+  Capacitacao:
     properties:
       NUMFUNC:
         type: integer
-      CURSOFORM:
+      CURSO:
         type: string
       DESCRICAO:
-        type: string
-      HABILITACAO:
         type: string
       DTINI:
         type: string
       DTFIM:
         type: string
       CARGAHOR:
+        type: integer
+      INSTIT:
         type: string
-      ESCOLA:
+      PONTOS:
         type: string
-      MEDIA:
+      DATA_A_CONTAR:
         type: string
-      PTS_QUE_CONTA:
-        type: string
-      DT_CONTOU_PTS:
+      OBS:
         type: string
       NUM_BOLETIM:
         type: string
       DT_BOLETIM:
         type: string
-      OBS:
+      ATUALIZADO:
         type: string
-        
-  Ferias:
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMVINC:
-        type: integer
-      DTINI:
+        description: (S/N) - Indica se o curso foi validado e está apto para utilização nos Processos para Concessão de Direitos e Vantagens.
+      VALIDO_ATDP:
         type: string
-        description: Data de ínicio do gozo de férias.
-      DTFIM:
-        type: string
-        description: Data de término do gozo de férias.
-      DTINI_PA:
-        type: string
-        description: Data de ínicio do período aquisitivo.
-      DTFIM_PA:
-        type: string
-        description: Data de término do período aquisitivo.
-      TOTDIAS:
-        type: integer
-      DIAS_GOZADOS:
-        type: integer
-      PONTPUBL:
-        type: integer
-        
-  Designacao:
-    properties:
-      NUMFUNC:
-        type: integer
-      NUMVINC:
-        type: integer
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      FUNCAO:
-        type: integer
-      FUNCAO_NOME:
-        type: string
-      SETOR:
-        type: string
-      SETOR_NOME:
-        type: string
-      PONTPUBL:
-        type: integer
+        description: (S/N) - Indica se o curso está cadastrado na tabela geral "CERG_CURSOS_CBM", que relaciona os cursos de interesse dos bombeiros.
         
   Dependente:
     properties:
@@ -998,75 +892,28 @@ definitions:
         type: string
       PONTPUBL:
         type: integer
-        
-  CursoCap:
+
+  Designacao:
     properties:
-      NUMFUNC:
-        type: integer
-      CURSO:
-        type: string
-      DESCRICAO:
-        type: string
-      DTINI:
-        type: string
-      DTFIM:
-        type: string
-      CARGAHOR:
-        type: integer
-      INSTIT:
-        type: string
-      PONTOS:
-        type: string
-      DATA_A_CONTAR:
-        type: string
-      OBS:
-        type: string
-      NUM_BOLETIM:
-        type: string
-      DT_BOLETIM:
-        type: string
-      ATUALIZADO:
-        type: string
-        description: (S/N) - Indica se o curso foi validado e está apto para utilização nos Processos para Concessão de Direitos e Vantagens.
-      VALIDO_ATDP:
-        type: string
-        description: (S/N) - Indica se o curso está cadastrado na tabela geral "CERG_CURSOS_CBM", que relaciona os cursos de interesse dos bombeiros.
-  
-  Publicacao:
-    properties:
-      PONT:
-        type: integer
-      MOTIVO:
-        type: string
-      VERSAO:
-        type: integer
-      DATAPUBL:
-        type: string
-      TIPOPUBL:
-        type: string
-      NUMPUBL:
-        type: string
-      AUTORIDADE:
-        type: string
-      TIPODO:
-        type: string
-      DATADO:
-        type: string
-      OBS:
-        type: string
-        
-  Auditoria:
-    properties:
-      DATAHORA:
-        type: string
       NUMFUNC:
         type: integer
       NUMVINC:
         type: integer
-      OPERACAO:
+      DTINI:
         type: string
-        description: "I - Insert; U - Update; D - Delete"
-  
+      DTFIM:
+        type: string
+      FUNCAO:
+        type: integer
+      FUNCAO_NOME:
+        type: string
+      SETOR:
+        type: string
+      SETOR_NOME:
+        type: string
+      PONTPUBL:
+        type: integer
+
   Empresa:
     properties:
       EMPRESA:
@@ -1100,6 +947,211 @@ definitions:
       WEB:
         type: string
 
+        
+  Ferias:
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      DTINI:
+        type: string
+        description: Data de ínicio do gozo de férias.
+      DTFIM:
+        type: string
+        description: Data de término do gozo de férias.
+      DTINI_PA:
+        type: string
+        description: Data de ínicio do período aquisitivo.
+      DTFIM_PA:
+        type: string
+        description: Data de término do período aquisitivo.
+      TOTDIAS:
+        type: integer
+      DIAS_GOZADOS:
+        type: integer
+      PONTPUBL:
+        type: integer
+
+  Formacao:
+    properties:
+      NUMFUNC:
+        type: integer
+      CURSOFORM:
+        type: string
+      DESCRICAO:
+        type: string
+      HABILITACAO:
+        type: string
+      DTINI:
+        type: string
+      DTFIM:
+        type: string
+      CARGAHOR:
+        type: string
+      ESCOLA:
+        type: string
+      MEDIA:
+        type: string
+      PTS_QUE_CONTA:
+        type: string
+      DT_CONTOU_PTS:
+        type: string
+      NUM_BOLETIM:
+        type: string
+      DT_BOLETIM:
+        type: string
+      OBS:
+        type: string
+
+  Frequencia:
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      TIPOFREQ:
+        type: string
+      CODFREQ:
+        type: integer
+      MNEMONICO:
+        type: string
+      NOME:
+        type: string
+      DTINI:
+        type: string
+      DTFIM:
+        type: string
+      DIAS:
+        type: integer
+      OBS:
+        type: string
+      PONTPUBL:
+        type: integer
+
+  HistDepen:
+    type: object
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMDEP:
+        type: integer
+      DTINI:
+        type: string
+      DTFIM:
+        type: string
+      INVALIDO:
+        type: string
+      ESTUDANTE:
+        type: string
+      UNIVERSITARIO:
+        type: string
+      EXCEPCIONAL:
+        type: string
+      ESTCIVIL:
+        type: string
+      PONTPUBL:
+        type: integer
+        
+  LicAfast:
+    type: object
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      TIPOFREQ:
+        type: string
+      CODFREQ:
+        type: integer
+      MNEMONICO:
+        type: string
+      NOME:
+        type: string
+      DTINI:
+        type: string
+      DTFIM:
+        type: string
+      DTPREVFIM:
+        type: string
+      DIAS:
+        type: integer
+      MOTIVO:
+        type: string
+      PONTPUBL:
+        type: integer
+
+  PastaFuncional:
+    type: object
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      PAGINA:
+        type: integer
+      ASSUNTO:
+        type: string
+      DATA:
+        type: string
+      COMPLEMENTO:
+        type: string
+      PONTPUBL:
+        type: integer
+
+  Provimento:
+    type: object
+    properties:
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      DTINI:
+        type: string
+      DTFIM:
+        type: string
+      SETOR:
+        type: string
+      SETOR_NOME:
+        type: string
+      CARGO:
+        type: integer
+      CARGO_NOME:
+        type: string
+      REFERENCIA:
+        type: string
+      JORNADA:
+        type: string
+      FORMAREM:
+        type: string
+      FORMAPROV:
+        type: string
+      PONTPUBL:
+        type: integer
+        
+  Publicacao:
+    properties:
+      PONT:
+        type: integer
+      MOTIVO:
+        type: string
+      VERSAO:
+        type: integer
+      DATAPUBL:
+        type: string
+      TIPOPUBL:
+        type: string
+      NUMPUBL:
+        type: string
+      AUTORIDADE:
+        type: string
+      TIPODO:
+        type: string
+      DATADO:
+        type: string
+      OBS:
+        type: string
+        
   SubEmpresa:
     properties:
       EMPRESA:
@@ -1172,6 +1224,26 @@ definitions:
       FONE:
         type: string
 
+  Auditoria:
+    properties:
+      DATAHORA:
+        type: string
+      NUMFUNC:
+        type: integer
+      NUMVINC:
+        type: integer
+      OPERACAO:
+        type: string
+        description: "I - Insert; U - Update; D - Delete"
+  
+
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        
+
 # Definições de Responses
 responses:
   Error:
@@ -1203,5 +1275,6 @@ securityDefinitions:
     tokenUrl: https://acessocidadao.es.gov.br/is/connect/token
     scopes:
       siarhes_basico: Permite o acesso de leitura a todos os endpoints da API.
+      siarhes_admin: Permite o acesso a funcionalidades de múltiplas empresas e setores. Para uso interno da Prodest.
 
 
