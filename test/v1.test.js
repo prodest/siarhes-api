@@ -8,7 +8,7 @@
 var agent = require('supertest');
 var assert = require('assert');
 var sinon = require('sinon');
-var cfg = require('./config');
+var cfg = require('../src/config');
 // Cria stubs para que não necessite acesso ao banco.
 // O ideal era separar os testes unitários dos de integração.
 

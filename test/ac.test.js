@@ -5,7 +5,7 @@
 var agent = require('supertest');
 var assert = require('assert');
 var sinon = require('sinon');
-var cfg = require('./config');
+var cfg = require('../src/config');
 var KoaOracle = require('koa-oracledb');
 sinon.stub(KoaOracle.prototype, 'middleware').callsFake(function() {
     return function(ctx, next) { return next(); }
