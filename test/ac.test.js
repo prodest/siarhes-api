@@ -39,8 +39,9 @@ describe('API AC', function() {
     after(function() {
         server.close();
     });
+    var testList = [];
     if (cfg.NODE_ENV === 'production') {
-        var testList = [
+        testList = [
             { endpoint: '/ac/servidor'      , query: undefined           , status: 400, message: 'O parâmetro cpf é obrigatório.' },
             { endpoint: '/ac/servidor'      , query: { cpf: 96985771734 }, status: 200, message: undefined },
             

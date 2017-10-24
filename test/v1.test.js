@@ -57,8 +57,9 @@ describe('API V1', function () {
 
     var now = new Date();
     var dataTeste = now.toISOString().slice(0, 10);
+    var testList = [];
     if (cfg.NODE_ENV === 'production') {
-        var testList = [
+        testList = [
             { endpoint: '/v1/vinculos', query: { numfunc: 273720 }, status: 200, message: undefined },
             { endpoint: '/v1/vinculos', query: { situacao: 'INVALIDA' }, status: 400, message: 'Situação inválida: INVALIDA' },
             { endpoint: '/v1/vinculos', query: { numfunc: 'letras' }, status: 400, message: 'numfunc must must only contain numbers' },
