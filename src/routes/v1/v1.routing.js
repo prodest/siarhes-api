@@ -33,13 +33,7 @@ module.exports.configure = (app, cfg) => {
 
     // Só faz a validação de token em produção.
     // Adiciona o scopo admin para facilitar consultas em outros ambientes.
-    if (cfg.NODE_ENV === 'production') {
-        router.use(auth.middleware({ scope: ['siarhes_admin', 'siarhes_basico'] }));
-    } else {
-        app.context.token = {
-            scope: ['siarhes_admin']
-        };
-    }
+    router.use(auth.middleware({ scope: ['siarhes_admin', 'siarhes_basico'] }));
 
     router.use(db.middleware());
     router.use(sessao.middleware());

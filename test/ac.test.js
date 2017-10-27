@@ -5,7 +5,7 @@
 var agent = require('supertest');
 var assert = require('assert');
 var sinon = require('sinon');
-
+var cfg = require('../src/config');
 var KoaOracle = require('koa-oracledb');
 sinon.stub(KoaOracle.prototype, 'middleware').callsFake(function() {
     return function(ctx, next) { return next(); }
@@ -39,15 +39,16 @@ describe('API AC', function() {
     after(function() {
         server.close();
     });
-
-    var testList = [
-        { endpoint: '/ac/servidor'      , query: undefined           , status: 400, message: 'O parâmetro cpf é obrigatório.' },
-        { endpoint: '/ac/servidor'      , query: { cpf: 96985771734 }, status: 200, message: undefined },
-        
-        { endpoint: '/ac/servidor/dados', query: undefined           , status: 400, message: 'O parâmetro cpf é obrigatório.' },
-        { endpoint: '/ac/servidor/dados', query: { cpf: 96985771734 }, status: 200, message: undefined },
-    ];
-
+    var testList = [];
+    if (cfg.NODE_ENV === 'production') {
+        testList = [
+            { endpoint: '/ac/servidor'      , query: undefined           , status: 400, message: 'O parâmetro cpf é obrigatório.' },
+            { endpoint: '/ac/servidor'      , query: { cpf: 96985771734 }, status: 200, message: undefined },
+            
+            { endpoint: '/ac/servidor/dados', query: undefined           , status: 400, message: 'O parâmetro cpf é obrigatório.' },
+            { endpoint: '/ac/servidor/dados', query: { cpf: 96985771734 }, status: 200, message: undefined },
+        ];
+    }
     // Faz os testes de acesso aos endpoints e de parâmetros obrigatórios.
     testList.forEach(function(test) {
         let descr = 'endpoint ' + test.endpoint + ' retorna: ' + test.status;
