@@ -31,9 +31,15 @@ module.exports.configure = (app, cfg) => {
     // Healthcheck
     heathcheck.install(router, db);
 
-    // Só faz a validação de token em produção.
+    // Não faz a validação de token em testing.
     // Adiciona o scopo admin para facilitar consultas em outros ambientes.
-    router.use(auth.middleware({ scope: ['siarhes_admin', 'siarhes_basico'] }));
+    if (cfg.NODE_ENV !== 'testing') {
+        router.use(auth.middleware({ scope: ['siarhes_admin', 'siarhes_basico'] }));
+    } else {
+        app.context.token = {
+            scope: ['siarhes_admin']
+        };
+    }
 
     router.use(db.middleware());
     router.use(sessao.middleware());
