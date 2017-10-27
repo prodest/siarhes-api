@@ -12,7 +12,7 @@ A API foi dividida em módulos, cada um responsável por suas próprias rotas. I
 Para rodar a API localmente, algumas configurações devem ser feitas:
 - Instalar o [Node.js](https://nodejs.org), versão 7.6 ou mais nova.
 - Instalar o [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html), e configurar de acordo com sua plataforma.
-- _Opcional_: Pode-se pular abaixo a parte em que se instala os redistributable do windows e o python2.7 instalando-se o pacote [windos build tools](https://www.npmjs.com/package/windows-build-tools) com o NPM, de administrador.
+- _Opcional_: Pode-se pular abaixo a parte em que se instala os redistributable do windows e o python2.7 instalando-se o pacote [windows build tools](https://www.npmjs.com/package/windows-build-tools) com o NPM, de administrador.
 - Configurar o node-oracledb. [Windows](https://github.com/oracle/node-oracledb/blob/master/INSTALL.md#instwin) ou [Linux](https://github.com/oracle/node-oracledb/blob/master/INSTALL.md#instzip)
 
 Comando para executar o serviço localmente:
