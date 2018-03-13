@@ -31,7 +31,7 @@ module.exports.configure = (app, cfg) => {
     heathcheck.install(router, db);
 
     // Não faz a validação em testing
-    if (cfg.NODE_ENV !== 'testing') {
+    if ((cfg.NODE_ENV !== 'testing') && (cfg.NODE_ENV !== 'development')) {
         router.use(auth.middleware({ scope: ['siarhes_admin'] }));
     }
 
