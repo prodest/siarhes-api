@@ -30,8 +30,10 @@ module.exports.configure = (app, cfg) => {
     // Healthcheck
     heathcheck.install(router, db);
 
-    // Não faz a validação em desenvolvimento para facilitar os testes.
-    router.use(auth.middleware({ scope: ['siarhes_admin'] }));
+    // Não faz a validação em testing
+    if ((cfg.NODE_ENV !== 'testing') && (cfg.NODE_ENV !== 'development')) {
+        router.use(auth.middleware({ scope: ['siarhes_admin'] }));
+    }
 
     router.use(db.middleware());
 
