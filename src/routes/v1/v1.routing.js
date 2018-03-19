@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const KoaOracle = require('koa-oracledb');
 const Auth = app_require('auth/auth');
 const sessao = app_require('auth/session');
-const heathcheck = app_require('healthcheck');
+const healthcheck = app_require('healthcheck');
 
 module.exports.configure = (app, cfg) => {
 
@@ -29,7 +29,7 @@ module.exports.configure = (app, cfg) => {
     }
 
     // Healthcheck
-    heathcheck.install(router, db);
+    healthcheck.install(router, db);
 
     // Não faz a validação de token em testing.
     // Adiciona o scopo admin para facilitar consultas em outros ambientes.
