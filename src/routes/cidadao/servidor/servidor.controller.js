@@ -4,6 +4,7 @@ const _ = require('underscore');
 module.exports.install = (router) => {
     router.get('/servidor'      , getSituacaoServidor);
     router.get('/servidor/dados', getDadosPessoais);
+    router.get('/servidor/total', getDadosTotal);
 };
 
 async function getSituacaoServidor(ctx, next) {
@@ -47,4 +48,10 @@ async function getDadosPessoais(ctx, next) {
         ctx.throw(400, 'CPF não encontrado no SIARHES.');
     else
         ctx.body = row;
+}
+
+async function getDadosTotal(ctx, next) {
+    var reqParams = ctx.request.query;
+    var rows = await servidorDAO.buscaDadosTotal(ctx.db);
+    ctx.body = rows;
 }
