@@ -34,6 +34,24 @@ module.exports.buscaDadosPessoais = async (conn, cpf) => {
     return rows;
 };
 
+
+module.exports.buscaDadosPerfilExerc = async (conn, cpf) => {
+    const query  = 'BEGIN :ret := U_APISIARHES.PCK_WEB_ACESSO_CID.busca_dados_perfil_exerc(:cpf); END;';
+    const params = { cpf: cpf, ret: { type: oracledb.CURSOR, dir: oracledb.BIND_OUT } };
+
+    var result = await conn.execute(query, params);
+    var rows   = new Array();
+
+    while (true) {
+        let rowsTmp = await result.outBinds.ret.getRows(10);
+        if (rowsTmp.length == 0) break;
+        rows = rows.concat(rowsTmp);
+    }
+
+    await result.outBinds.ret.close();
+    return rows;
+};
+
 module.exports.buscaDadosTotal = async (conn, cpf) => {    
     const query  = 'select * from table(u_apisiarhes.pck_web_acesso_cid.busca_dados_total_pipe())';
     let result = await conn.execute(query, [], { resultSet: true });
