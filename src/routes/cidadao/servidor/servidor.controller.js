@@ -84,9 +84,21 @@ async function getDadosPessoais(ctx, next) {
 }
 
 async function getDadosTotal(ctx, next) {
-    ctx.validateQuery('pagina').required('O parâmetro página é obrigatório.');
-    ctx.validateQuery('tam_pagina').required('O parâmetro tamanho da página é obrigatório.');
+    ctx.validateQuery('pagina')
+        .required('O parâmetro página é obrigatório.')
+        .isNumeric('O parâmetro página deve ser numérico.')    
+        .toInt()
+        .gt(0, 'O parâmetro página deve ser pelo menos 1')
+    ;
+
+    ctx.validateQuery('tam_pagina')
+        .required('O parâmetro tamanho da página é obrigatório.')
+        .isNumeric('O parâmetro tam_pagina deve ser numérico.')        
+        .toInt()
+        .gt(999, 'O parâmetro página deve ser pelo menos 1000')
+    ;
+
     var reqParams = ctx.request.query;
-    var rows = await servidorDAO.buscaDadosTotal(ctx.db, reqParams.pagina, reqParams.tam_pagina);
+    var rows = await servidorDAO.buscaDadosTotal(ctx.db, reqParams.pagina - 1, reqParams.tam_pagina);
     ctx.body = rows;
 }

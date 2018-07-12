@@ -60,7 +60,7 @@ module.exports.buscaDadosTotal = async (conn, pagina, tam_pagina) => {
     let rows   = new Array();
 
     while (true) {
-        let rowsTmp = await result.outBinds.ret.getRows(100);
+        let rowsTmp = await result.outBinds.ret.getRows(1000);
         if (rowsTmp.length == 0) break;
         rows = rows.concat(rowsTmp);
     }
