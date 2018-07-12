@@ -52,17 +52,19 @@ module.exports.buscaDadosPerfilExerc = async (conn, cpf) => {
     return rows;
 };
 
-module.exports.buscaDadosTotal = async (conn, cpf) => {    
-    const query  = 'select * from table(u_apisiarhes.pck_web_acesso_cid.busca_dados_total_pipe())';
-    let result = await conn.execute(query, [], { resultSet: true });
-    var rows   = new Array();
+module.exports.buscaDadosTotal = async (conn, pagina, tam_pagina) => {
+    const query  = 'BEGIN :ret := U_APISIARHES.PCK_WEB_ACESSO_CID.busca_dados_perfil_total(:pagina, :tam_pagina); END;';
+    const params = {pagina: pagina, tam_pagina: tam_pagina, ret: { type: oracledb.CURSOR, dir: oracledb.BIND_OUT } };    
+    
+    let result = await conn.execute(query, params);
+    let rows   = new Array();
 
     while (true) {
-        let rowsTmp = await result.resultSet.getRows(10);
+        let rowsTmp = await result.outBinds.ret.getRows(100);
         if (rowsTmp.length == 0) break;
         rows = rows.concat(rowsTmp);
     }
 
-    await result.resultSet.close();
+    await result.outBinds.ret.close();
     return rows;
 };

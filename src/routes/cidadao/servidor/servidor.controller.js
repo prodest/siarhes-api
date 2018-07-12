@@ -84,7 +84,9 @@ async function getDadosPessoais(ctx, next) {
 }
 
 async function getDadosTotal(ctx, next) {
+    ctx.validateQuery('pagina').required('O parâmetro página é obrigatório.');
+    ctx.validateQuery('tam_pagina').required('O parâmetro tamanho da página é obrigatório.');
     var reqParams = ctx.request.query;
-    var rows = await servidorDAO.buscaDadosTotal(ctx.db);
+    var rows = await servidorDAO.buscaDadosTotal(ctx.db, reqParams.pagina, reqParams.tam_pagina);
     ctx.body = rows;
 }
