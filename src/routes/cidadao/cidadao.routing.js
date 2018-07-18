@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const KoaOracle = require('koa-oracledb');
 const Auth = app_require('auth/auth');
-const heathcheck = app_require('healthcheck');
+const healthcheck = app_require('healthcheck');
 
 module.exports.configure = (app, cfg) => {
 
@@ -28,7 +28,7 @@ module.exports.configure = (app, cfg) => {
     }
 
     // Healthcheck
-    heathcheck.install(router, db);
+    healthcheck.install(router, db);
 
     // Não faz a validação em testing
     if ((cfg.NODE_ENV !== 'testing') && (cfg.NODE_ENV !== 'development')) {
