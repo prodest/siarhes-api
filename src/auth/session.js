@@ -45,8 +45,8 @@ module.exports.middleware = () => async (ctx, next) => {
                 &&  !ctx.path.endsWith('/organograma')
                 &&  !ctx.path.endsWith('/comissoes/')
                 &&  !ctx.path.endsWith('/comissoes')
-                &&  !ctx.path.endsWith('/membros/') 
-                &&  !ctx.path.endsWith('/membros')                               
+                &&  !ctx.path.endsWith('/membros_comissoes/') 
+                &&  !ctx.path.endsWith('/membros_comissoes')                               
             ){
                 ctx.throw(401, 'Favor consultar com o cpf, numfunc, numvinc, empresa ou subempresa.');
             }

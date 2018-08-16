@@ -64,7 +64,7 @@ module.exports.configure = (app, cfg) => {
     require('./subempresas/subempresas.controller').install(router);
     require('./organograma/organograma.controller').install(router);    
     require('./comissoes/comissoes.controller').install(router);
-    require('./membros/membros.controller').install(router);
+    require('./membros_comissoes/membros_comissoes.controller').install(router);
     
     // Instala as rotas deste módulo no app.
     app.use(router.middleware())
