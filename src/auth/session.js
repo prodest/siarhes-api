@@ -38,8 +38,15 @@ module.exports.middleware = () => async (ctx, next) => {
             // TODO: Melhorar a forma que a sessão é usada na API.
             // No momento tive que colocar essa condição, pois são os únicos endpoints que podem ser consultados
             // sem passar um dos parâmetros validados aqui.
-            if (!ctx.path.endsWith('/empresas') && !ctx.path.endsWith('/subempresas') && !ctx.path.endsWith('/organograma'))
+            if 
+            (
+                    !ctx.path.endsWith('/empresas') 
+                &&  !ctx.path.endsWith('/subempresas') 
+                &&  !ctx.path.endsWith('/organograma')
+                &&  !ctx.path.endsWith('/comissoes/')
+            ){
                 ctx.throw(401, 'Favor consultar com o cpf, numfunc, numvinc, empresa ou subempresa.');
+            }
     } else {
         if (!token.client_empresa || !token.client_subempresa)
             ctx.throw(401, 'Empresa/Subempresa não conrigurada no client.');
