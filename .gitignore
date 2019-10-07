@@ -4,3 +4,4 @@
 .env_prod
 \.vscode
 *.log
+oracle
