@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:8.16.1-stretch-slim
 
 # Dependencies
 RUN apt-get update && apt-get install -y unzip libaio1 make g++ python
@@ -16,16 +16,18 @@ ENV OCI_INC_DIR /opt/oracle/instantclient/sdk/include
 ENV LD_LIBRARY_PATH /opt/oracle/instantclient:${LD_LIBRARY_PATH}
 ENV PATH /opt/oracle/instantclient:${PATH}
 
-# Project Files
-COPY src /app/src
+# Installing project dependencies
 COPY package.json /app/package.json
 WORKDIR /app
+RUN npm install --production
 
+# Copying source code
+COPY src /app/src
+
+# Setting environment variables
 ENV NODE_ENV "production"
 ENV PORT 3000
 
-# Build Project
-RUN npm install
-
-EXPOSE ${PORT}
+# Ports for docker run -p
+EXPOSE 3000
 CMD ["node", "src/server.js"]
