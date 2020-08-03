@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const KoaOracle = require('koa-oracledb');
+const KoaOracle = app_require('services/koa-oracledb');
 const Auth = app_require('auth/auth');
 const healthcheck = app_require('healthcheck');
 

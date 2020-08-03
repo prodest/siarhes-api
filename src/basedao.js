@@ -11,16 +11,17 @@ module.exports = class BaseDao {
      * @param {*} params Parâmetros da consulta.
      */
     async executeSelect(query, params) {
-        var result = await this.db.execute(query, params, { resultSet: true, prefetchRows: 300 });
+        var result = await this.db.execute(query, params, { resultSet: true, fetchArraySize: 300 });
         var rows = new Array();
 
-        while (true) {
-            let rowsTmp = await result.resultSet.getRows(300);
-            if (rowsTmp.length == 0) break;
-            rows = rows.concat(rowsTmp);
+        const rs = result.resultSet;
+        let row;
+
+        while ((row = await rs.getRow())) {
+            rows.push(row);
         }
 
-        await result.resultSet.close();
+        await rs.close();
         return rows;
     }
 

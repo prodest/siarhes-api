@@ -1,7 +1,7 @@
-FROM node:8.16.1-stretch-slim
+FROM node:12.16.3-stretch-slim
 
 # Dependencies
-RUN apt-get update && apt-get install -y unzip libaio1 make g++ python
+RUN apt-get update && apt-get install -y unzip make g++ python libaio1 
 
 # Oracle Instant Client
 COPY oracle/*.zip /opt/oracle/
@@ -11,10 +11,7 @@ RUN unzip "/opt/oracle/*.zip" -d /opt/oracle \
  && ln -s /opt/oracle/instantclient/libclntsh.so.12.1 /opt/oracle/instantclient/libclntsh.so \
  && ln -s /opt/oracle/instantclient/libocci.so.12.1 /opt/oracle/instantclient/libocci.so
 
-ENV OCI_LIB_DIR /opt/oracle/instantclient
-ENV OCI_INC_DIR /opt/oracle/instantclient/sdk/include
 ENV LD_LIBRARY_PATH /opt/oracle/instantclient:${LD_LIBRARY_PATH}
-ENV PATH /opt/oracle/instantclient:${PATH}
 
 # Installing project dependencies
 COPY package.json /app/package.json

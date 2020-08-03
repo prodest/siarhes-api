@@ -12,7 +12,7 @@ var cfg = require('../src/config');
 // Cria stubs para que não necessite acesso ao banco.
 // O ideal era separar os testes unitários dos de integração.
 
-var KoaOracle = require('koa-oracledb');
+var KoaOracle = require('../src/services/koa-oracle');
 sinon.stub(KoaOracle.prototype, 'middleware').callsFake(function () {
     return function (ctx, next) { return next(); }
 });

@@ -3,18 +3,18 @@ global.app_require = (path) => require(__dirname + '/' + path);
 
 const debug = require('debug')('app:main');
 const cfg = require('./config');
+
+// New Relic
+if (cfg.NODE_ENV === 'production') {
+    // https://docs.newrelic.com/docs/agents/nodejs-agent/installation-configuration/install-nodejs-agent#installing
+    require('@newrelic/koa');
+}
+
 const Koa = require('koa');
 const app = new Koa();
 const compress = require('koa-compress');
 const bouncer = require('koa-bouncer');
 const oracledb = require('oracledb');
-
-// New Relic
-if (cfg.NODE_ENV === 'production') {
-    var newrelic = require('newrelic');
-    var koa2nr = require('koa2-newrelic')(newrelic, {});
-    app.use(koa2nr);
-}
 
 // DB configs.
 oracledb.outFormat = oracledb.OBJECT;
@@ -43,16 +43,6 @@ app.use(async (ctx, next) => {
         await next();
     } catch (err) {
         debug(err);
-
-        // Loga o erro e o status das conexões no New Relic.
-        if (newrelic) newrelic.addCustomParameters({
-            "Error Object": err,
-            "Error Stack": err.stack,
-            "Connection Pools": [
-                oracledb.getPool(cfg.DB_POOL_V1),
-                oracledb.getPool(cfg.DB_POOL_AC)
-            ]
-        });
 
         // Se for erro de validação, coloca o código 400.
         if (err instanceof bouncer.ValidationError) {
